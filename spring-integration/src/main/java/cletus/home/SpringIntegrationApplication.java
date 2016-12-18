@@ -6,6 +6,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.GenericMessage;
+import sun.net.www.MessageHeader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @Configuration
@@ -18,6 +25,14 @@ public class SpringIntegrationApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments applicationArguments) throws Exception {
-		System.out.println("Hello World!");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", "value");
+        MessageHeaders headers = new MessageHeaders(map);
+
+        Message<String> message = new GenericMessage<String>("Hello World", headers);
+
+		PrintService service = new PrintService();
+		service.print(message);
 	}
 }
